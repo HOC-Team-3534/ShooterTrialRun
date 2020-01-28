@@ -79,9 +79,21 @@ public class Drive extends SystemBase implements SystemInterface {
 			NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
 			double tx = table.getEntry("tx").getDouble(0.0);
 			double height = table.getEntry("tvert").getDouble(0.0);
-			double skew = table.getEntry("ts").getDouble(0.0);
+			double skew = 16 - Math.floor(Math.abs(table.getEntry("ts").getDouble(0.0) + 45) / 3);//puts skew in range from 0 to 15
 			double width = table.getEntry("thor").getDouble(0.0);
 
+			double distance = 0;
+
+			if(skew < 5){
+				distance = 595.01 * Math.pow(Math.E, -0.017 * height);
+			}else if(skew < 8){
+				distance = 523.14 * Math.pow(Math.E, -0.014 * height);
+			}else if(skew < 10){
+				distance = 345.29 * Math.pow(Math.E, -0.008 * height);
+			}else{
+				distance = 329.21 * Math.pow(Math.E, -0.007 * height);
+			}
+			SmartDashboard.putNumber("Distance: ", distance);
 			/*if(Axes.DriverTargetMode.getAxis() >= 0.5){
 
 				double heading_error = tx;

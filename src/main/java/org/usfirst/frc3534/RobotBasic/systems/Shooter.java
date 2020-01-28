@@ -11,7 +11,7 @@ public class Shooter extends SystemBase implements SystemInterface {
     private WPI_TalonFX shooter = RobotMap.shooter;
     private WPI_TalonSRX topBelt = RobotMap.topBelt;
     private WPI_TalonSRX indexWheel = RobotMap.indexWheel;
-    private WPI_TalonSRX bottomBelt = RobotMap.bottomBelt;
+    //private WPI_TalonSRX bottomBelt = RobotMap.bottomBelt;
 
     ShooterState shooterState = ShooterState.STOP;
     TopBeltState topBeltState = TopBeltState.STOP;
@@ -172,6 +172,12 @@ public class Shooter extends SystemBase implements SystemInterface {
 
     }
 
+    public TopBeltState getTopBeltState(){
+
+        return topBeltState;
+
+    }
+
     private void setTopBeltPower(double power){
 
         topBelt.set(ControlMode.PercentOutput, power);
@@ -198,7 +204,7 @@ public class Shooter extends SystemBase implements SystemInterface {
 
     private void setBottomBeltPower(double power){
 
-        bottomBelt.set(ControlMode.PercentOutput, power);
+        //bottomBelt.set(ControlMode.PercentOutput, power);
 
     }
 }

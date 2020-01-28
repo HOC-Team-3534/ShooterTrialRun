@@ -7,6 +7,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
+import com.revrobotics.ColorSensorV3;
+
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -32,7 +35,10 @@ public class RobotMap {
 	public static WPI_TalonFX shooter; 				//11
 	public static WPI_TalonSRX topBelt;				//12
 	public static WPI_TalonSRX indexWheel;				//13
-	public static WPI_TalonSRX bottomBelt;				//14
+	//public static WPI_TalonSRX bottomBelt;				//14
+	public static WPI_TalonFX shooterSlave;
+
+	public static ColorSensorV3 colorSensor;
 
 	public static Spark blinkin;
 
@@ -121,13 +127,19 @@ public class RobotMap {
 		// frontRightMotor.setNeutralMode(NeutralMode.Brake);
 
 		shooter = new WPI_TalonFX(11);
-		topBelt = new WPI_TalonSRX(12);
+		shooterSlave = new WPI_TalonFX(15);
+		shooterSlave.follow(shooter);
+		shooterSlave.setInverted(true);
+		topBelt = new WPI_TalonSRX(12);//12
 		topBelt.setInverted(true);
-		indexWheel = new WPI_TalonSRX(13);
+		topBelt.setNeutralMode(NeutralMode.Brake);
+		indexWheel = new WPI_TalonSRX(13);//13
 		indexWheel.setNeutralMode(NeutralMode.Brake);
-		bottomBelt = new WPI_TalonSRX(14);
-		bottomBelt.setInverted(true);
+		// bottomBelt = new WPI_TalonSRX(14);
+		// bottomBelt.setInverted(true);
 		
+		colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
+
 		blinkin = new Spark(1);
 
 		navx = new AHRS(SPI.Port.kMXP);
@@ -168,10 +180,7 @@ public class RobotMap {
 		  *	when the next years copy of the code is made)
 		  */
 
-		shoot_load(0.5),
-		intake_load(3.0),
-		shoot_burp(0.1),
-		shoot_index(0.7);
+		intake_load(3.0);
 
 		public double time;
 
@@ -189,11 +198,11 @@ public class RobotMap {
 		  *	below is just an example from 2019 (shooter was updated for RobotBasic)
 		  */
 
-		shooter_shooter_shoot(15500),
+		shooter_shooter_shoot(18500),
 		shooter_shooter_stop(0.0),
 		shooter_topBelt_run(1.0),
 		shooter_topBelt_stop(0.0),
-		shooter_indexWheel_run(1.0),
+		shooter_indexWheel_run(0.5),
 		shooter_indexWheel_stop(0.0),
 		shooter_bottomBelt_run(1.0),
 		shooter_bottomBelt_burp(-1.0),
